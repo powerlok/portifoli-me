@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paulo Laredo | Architect Mind</title>
+
+<style>
+:root{
+--bg:#0b0f19;
+--primary:#00f0ff;
+--card:#121826;
+--text:#e6edf3;
+--muted:#7c8aa5;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Consolas,monospace}
+
+body{
+background:var(--bg);
+color:var(--text);
+overflow-x:hidden;
+}
+
+section{
+padding:80px 10%;
+}
+
+.hero{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+
+.hero h1{
+font-size:3rem;
+color:var(--primary);
+}
+
+.hero p{
+color:var(--muted);
+margin-top:20px;
+}
+
+button{
+background:var(--primary);
+border:none;
+padding:10px 20px;
+margin:10px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.neural-map{
+display:flex;
+flex-wrap:wrap;
+gap:20px;
+margin-top:40px;
+}
+
+.node{
+padding:15px 25px;
+border:1px solid var(--primary);
+border-radius:30px;
+cursor:pointer;
+transition:.3s;
+}
+
+.node:hover{
+background:var(--primary);
+color:#000;
+}
+
+.panel{
+margin-top:30px;
+background:var(--card);
+padding:30px;
+border-radius:10px;
+}
+
+.timeline{
+border-left:2px solid var(--primary);
+padding-left:20px;
+margin-top:40px;
+}
+
+.timeline div{
+margin-bottom:20px;
+}
+
+footer{
+text-align:center;
+padding:40px;
+color:var(--muted);
+}
+</style>
+</head>
+
+<body>
+
+<section class="hero">
+<h1>Inside the Architect's Mind</h1>
+<p>Paulo Laredo — Senior Software Engineer</p>
+<p>Designing scalable, secure and resilient systems for 15+ years.</p>
+<button onclick="toggleMode()">Switch Perspective</button>
+<p id="modeLabel">Current Mode: Executive</p>
+</section>
+
+<section>
+<h2>Neural Architecture Map</h2>
+
+<div class="neural-map">
+<div class="node" onclick="show('dotnet')">.NET 8</div>
+<div class="node" onclick="show('clean')">Clean Architecture</div>
+<div class="node" onclick="show('micro')">Microservices</div>
+<div class="node" onclick="show('azure')">Azure</div>
+<div class="node" onclick="show('react')">React</div>
+<div class="node" onclick="show('angular')">Angular</div>
+<div class="node" onclick="show('sql')">SQL</div>
+</div>
+
+<div id="info" class="panel">
+Selecione um nó para explorar decisões arquiteturais.
+</div>
+</section>
+
+<section>
+<h2>Career Evolution</h2>
+
+<div class="timeline">
+<div><strong>2008</strong> — Primeiros projetos profissionais.</div>
+<div><strong>2015</strong> — Sistemas enterprise de alta complexidade.</div>
+<div><strong>2021 - Atual</strong> — Instituto de Pesquisas Eldorado.</div>
+</div>
+
+</section>
+
+<footer>
+System Build v2.0 — Architect Interface
+</footer>
+
+<script>
+let mode = "Executive";
+
+function toggleMode(){
+mode = mode === "Executive" ? "Technical" : "Executive";
+document.getElementById("modeLabel").innerText = "Current Mode: " + mode;
+}
+
+function show(type){
+const executive = {
+dotnet:"Desenvolvimento de APIs robustas e escaláveis.",
+clean:"Arquitetura organizada e sustentável a longo prazo.",
+micro:"Sistemas modulares com melhor escalabilidade.",
+azure:"Deploy e integração em ambiente cloud.",
+react:"Interfaces modernas e performáticas.",
+angular:"Aplicações enterprise estruturadas.",
+sql:"Modelagem e otimização de dados."
+};
+
+const technical = {
+dotnet:"Uso de .NET 8 com separação de camadas e boas práticas.",
+clean:"Aplicação de SOLID, separação de domínio e infraestrutura.",
+micro:"Design orientado a domínio e boundaries bem definidos.",
+azure:"Integração com App Services e monitoramento.",
+react:"Gerenciamento de estado e componentização eficiente.",
+angular:"Arquitetura modular e lazy loading.",
+sql:"Índices, tuning de queries e modelagem relacional."
+};
+
+document.getElementById("info").innerText =
+mode === "Executive" ? executive[type] : technical[type];
+}
+</script>
+
+</body>
+</html>
