@@ -1,179 +1,448 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paulo Laredo | Architect Mind</title>
-
+<title>Paulo Laredo - Senior Software Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,700;1,9..144,900&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,700,900&display=swap" rel="stylesheet">
 <style>
-:root{
---bg:#0b0f19;
---primary:#00f0ff;
---card:#121826;
---text:#e6edf3;
---muted:#7c8aa5;
-}
-
-*{margin:0;padding:0;box-sizing:border-box;font-family:Consolas,monospace}
-
-body{
-background:var(--bg);
-color:var(--text);
-overflow-x:hidden;
-}
-
-section{
-padding:80px 10%;
-}
-
-.hero{
-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-}
-
-.hero h1{
-font-size:3rem;
-color:var(--primary);
-}
-
-.hero p{
-color:var(--muted);
-margin-top:20px;
-}
-
-button{
-background:var(--primary);
-border:none;
-padding:10px 20px;
-margin:10px;
-cursor:pointer;
-font-weight:bold;
-}
-
-.neural-map{
-display:flex;
-flex-wrap:wrap;
-gap:20px;
-margin-top:40px;
-}
-
-.node{
-padding:15px 25px;
-border:1px solid var(--primary);
-border-radius:30px;
-cursor:pointer;
-transition:.3s;
-}
-
-.node:hover{
-background:var(--primary);
-color:#000;
-}
-
-.panel{
-margin-top:30px;
-background:var(--card);
-padding:30px;
-border-radius:10px;
-}
-
-.timeline{
-border-left:2px solid var(--primary);
-padding-left:20px;
-margin-top:40px;
-}
-
-.timeline div{
-margin-bottom:20px;
-}
-
-footer{
-text-align:center;
-padding:40px;
-color:var(--muted);
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0a0f;--surface:#111118;--surface2:#16161f;--border:rgba(255,255,255,0.07);--accent:#00e5ff;--accent2:#7b61ff;--accent3:#ff6b6b;--text:#f0f0f5;--muted:#9090a8;--card-bg:rgba(255,255,255,0.03)}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;overflow-x:hidden;cursor:none}
+.cursor{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;mix-blend-mode:difference}
+.cursor-dot{width:8px;height:8px;background:var(--accent);border-radius:50%;position:absolute;transform:translate(-50%,-50%)}
+.cursor-ring{width:40px;height:40px;border:1px solid var(--accent);border-radius:50%;position:absolute;transform:translate(-50%,-50%);transition:width .2s,height .2s,opacity .2s;opacity:.6}
+.scroll-progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:200;background:linear-gradient(to right,var(--accent),var(--accent2));transform-origin:left;transform:scaleX(0)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 4rem;background:rgba(10,10,15,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:1.2rem;color:var(--text);text-decoration:none}
+.nav-logo span{color:var(--accent)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{color:var(--muted);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s ease}
+.nav-links a:hover{color:var(--text)}
+.nav-links a:hover::after{transform:scaleX(1)}
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:80px 4rem 0;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 60% 60% at 80% 50%,rgba(0,229,255,.04) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 20% 80%,rgba(123,97,255,.06) 0%,transparent 70%)}
+.hero-grid{position:absolute;inset:0;z-index:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black,transparent)}
+.hero-left{position:relative;z-index:1}
+.hero-name{font-family:'Cabinet Grotesk',sans-serif;font-weight:900;font-size:clamp(3.5rem,7vw,6rem);line-height:.95;letter-spacing:-.02em;animation:fadeSlideUp .8s .1s ease both}
+.hero-name .line{overflow:hidden;display:block}
+.hero-name .accent-word{color:var(--accent);font-style:italic;font-family:'Fraunces',serif}
+.hero-title{font-size:.9rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:1.5rem;margin-bottom:2rem;animation:fadeSlideUp .8s .2s ease both}
+.hero-desc{font-size:1rem;color:var(--muted);line-height:1.85;max-width:420px;animation:fadeSlideUp .8s .3s ease both}
+.hero-desc strong{color:var(--accent);font-weight:600}
+.hero-cta{display:flex;gap:1rem;margin-top:2.5rem;animation:fadeSlideUp .8s .4s ease both}
+.btn-primary{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#000;padding:.85rem 2rem;border-radius:4px;font-size:.82rem;font-weight:600;letter-spacing:.05em;text-decoration:none;transition:all .2s;text-transform:uppercase}
+.btn-primary:hover{background:#fff;transform:translateY(-2px)}
+.btn-ghost{display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--border);color:var(--text);padding:.85rem 2rem;border-radius:4px;font-size:.82rem;letter-spacing:.05em;text-decoration:none;transition:all .2s;text-transform:uppercase}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.hero-right{position:relative;z-index:1;display:flex;align-items:center;justify-content:center}
+.terminal-card{width:100%;max-width:480px;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:0 0 80px rgba(0,229,255,.05),0 40px 80px rgba(0,0,0,.5);animation:fadeSlideUp .8s .5s ease both}
+.terminal-header{display:flex;align-items:center;gap:.5rem;padding:.9rem 1.2rem;border-bottom:1px solid var(--border);background:rgba(255,255,255,.02)}
+.tdot{width:12px;height:12px;border-radius:50%}
+.tdot-r{background:#ff5f57}.tdot-y{background:#ffbd2e}.tdot-g{background:#28ca41}
+.terminal-title{font-size:.7rem;color:var(--muted);margin-left:auto;letter-spacing:.1em;font-family:'DM Mono',monospace}
+.terminal-body{padding:1.5rem;font-size:.82rem;line-height:2.1;font-family:'DM Mono',monospace}
+.t-key{color:var(--accent2)}.t-str{color:var(--accent)}.t-str-hi{color:#00e5ff;font-weight:600}.t-num{color:var(--accent3)}.t-br{color:var(--muted)}
+.t-in{padding-left:1.5rem;display:block}.t-in2{padding-left:3rem;display:block}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--border)}
+.stat{padding:1rem 1.2rem;text-align:center;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat-num{font-family:'Cabinet Grotesk',sans-serif;font-size:1.5rem;font-weight:800;color:var(--accent)}
+.stat-label{font-size:.65rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:.2rem}
+.marquee-section{padding:2.5rem 0;overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface)}
+.marquee-track{display:flex;gap:4rem;animation:marquee 24s linear infinite;white-space:nowrap}
+.marquee-item{font-family:'Cabinet Grotesk',sans-serif;font-size:.85rem;font-weight:700;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;gap:1.5rem;flex-shrink:0}
+.marquee-sep{color:var(--accent)}.marquee-hi{color:var(--accent)}
+section{position:relative;z-index:1}
+.section-label{display:flex;align-items:center;gap:1rem;font-size:.72rem;color:var(--accent);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1rem}
+.section-label::before{content:'';width:40px;height:1px;background:var(--accent)}
+.section-heading{font-family:'Cabinet Grotesk',sans-serif;font-weight:900;font-size:clamp(2rem,4vw,3.5rem);letter-spacing:-.02em;line-height:1.05}
+.about{padding:8rem 4rem}
+.about-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:6rem;align-items:start;margin-top:4rem}
+.about-text p{font-size:1rem;color:var(--muted);line-height:1.85;margin-bottom:1.3rem}
+.about-text p strong{color:var(--text);font-weight:600}
+.dotnet-hl{color:var(--accent);font-weight:700}
+.about-skills-heading{font-family:'Cabinet Grotesk',sans-serif;font-size:.85rem;font-weight:700;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.2rem;margin-top:2.5rem}
+.skill-tags{display:flex;flex-wrap:wrap;gap:.6rem}
+.skill-tag{padding:.4rem 1rem;border:1px solid var(--border);border-radius:100px;font-size:.8rem;color:var(--muted);transition:all .2s;background:var(--card-bg)}
+.skill-tag:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.skill-tag.primary{border-color:rgba(255,255,255,.15);color:#c8c8d8}
+.skill-tag.dotnet{border-color:var(--accent);color:var(--accent);background:rgba(0,229,255,.08);font-weight:700;font-size:.88rem;padding:.5rem 1.2rem;box-shadow:0 0 16px rgba(0,229,255,.15)}
+.skill-tag.dotnet:hover{background:rgba(0,229,255,.18);box-shadow:0 0 24px rgba(0,229,255,.3)}
+.info-cards{display:grid;gap:1rem}
+.info-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.5rem;transition:border-color .2s,transform .2s}
+.info-card:hover{border-color:rgba(255,255,255,.15);transform:translateY(-4px)}
+.info-card-icon{font-size:1.5rem;margin-bottom:.8rem}
+.info-card-title{font-family:'Cabinet Grotesk',sans-serif;font-weight:700;font-size:1rem;margin-bottom:.5rem}
+.info-card-text{font-size:.92rem;color:var(--muted);line-height:1.75}
+.info-card.dotnet-card{border-color:rgba(0,229,255,.35);background:linear-gradient(135deg,rgba(0,229,255,.07) 0%,rgba(0,229,255,.02) 100%);position:relative;overflow:hidden}
+.info-card.dotnet-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent)}
+.info-card.dotnet-card:hover{border-color:rgba(0,229,255,.6)}
+.info-card.dotnet-card .info-card-title{color:var(--accent)}
+.experience{padding:6rem 4rem;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.timeline{margin-top:4rem;position:relative}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--accent),transparent)}
+.timeline-item{padding-left:3rem;padding-bottom:4rem;position:relative}
+.timeline-item::before{content:'';position:absolute;left:-5px;top:6px;width:11px;height:11px;border-radius:50%;background:var(--bg);border:2px solid var(--accent)}
+.timeline-item:first-child::before{background:var(--accent)}
+.timeline-period{font-size:.72rem;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.7rem;font-family:'DM Mono',monospace}
+.timeline-company{font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:1.4rem;letter-spacing:-.01em;margin-bottom:.25rem}
+.timeline-role{font-size:.9rem;color:var(--muted);margin-bottom:1.2rem;font-weight:500}
+.timeline-highlights{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.2rem}
+.highlight-pill{padding:.3rem .8rem;background:rgba(0,229,255,.07);border:1px solid rgba(0,229,255,.15);border-radius:100px;font-size:.72rem;color:var(--accent)}
+.highlight-pill.dotnet-pill{background:rgba(0,229,255,.15);border-color:rgba(0,229,255,.5);font-weight:700}
+.timeline-desc{font-size:.95rem;color:var(--muted);line-height:1.85}
+.timeline-desc li{margin-bottom:.45rem;list-style:none;padding-left:1.2rem;position:relative}
+.timeline-desc li::before{content:'\2192';position:absolute;left:0;color:var(--accent2)}
+.techstack{padding:6rem 4rem}
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:1px;margin-top:4rem;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.tech-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;padding:2rem 1rem;background:var(--surface);border:1px solid var(--border);font-size:.8rem;color:var(--muted);transition:all .3s;cursor:default;text-align:center}
+.tech-item:hover{background:var(--surface2);color:var(--text)}
+.tech-item:hover .tech-icon{transform:translateY(-4px)}
+.tech-icon{font-size:2rem;transition:transform .3s}
+.tech-item.tech-featured{border-color:rgba(0,229,255,.3);background:rgba(0,229,255,.06);color:var(--accent)}
+.tech-item.tech-featured:hover{background:rgba(0,229,255,.12)}
+.tech-item.tech-featured .tech-icon{filter:drop-shadow(0 0 8px rgba(0,229,255,.5))}
+.tech-badge{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(0,229,255,.4);border-radius:100px;padding:.12rem .55rem;margin-top:.1rem}
+.contact{padding:8rem 4rem;text-align:center;background:var(--surface);border-top:1px solid var(--border);position:relative;overflow:hidden}
+.contact-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(0,229,255,.03),transparent)}
+.contact-content{position:relative;z-index:1}
+.contact-heading{font-family:'Cabinet Grotesk',sans-serif;font-weight:900;font-size:clamp(2.5rem,6vw,5rem);letter-spacing:-.03em;line-height:1;margin-bottom:1.5rem}
+.contact-heading em{font-family:'Fraunces',serif;color:var(--accent);font-style:italic}
+.contact-sub{font-size:1rem;color:var(--muted);max-width:480px;margin:0 auto 3rem;line-height:1.85}
+.contact-links{display:flex;align-items:center;justify-content:center;gap:1.2rem;flex-wrap:wrap}
+.contact-link{display:inline-flex;align-items:center;gap:.6rem;padding:.85rem 1.8rem;border:1px solid var(--border);border-radius:4px;font-size:.82rem;color:var(--muted);text-decoration:none;letter-spacing:.06em;text-transform:uppercase;transition:all .2s;background:var(--card-bg)}
+.contact-link:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-3px)}
+.contact-link.main{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600}
+.contact-link.main:hover{background:#fff;border-color:#fff}
+footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-size:.75rem;color:var(--muted)}
+footer a{color:var(--muted);text-decoration:none;transition:color .2s}
+footer a:hover{color:var(--accent)}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.fade-in{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+@media(max-width:900px){
+  nav{padding:1.2rem 1.5rem}.nav-links{display:none}
+  .hero{grid-template-columns:1fr;padding:6rem 1.5rem 4rem;gap:4rem}.hero-right{display:none}
+  .about,.experience,.techstack,.contact{padding:5rem 1.5rem}
+  .about-grid{grid-template-columns:1fr;gap:3rem}
+  footer{padding:1.5rem;flex-direction:column;gap:1rem;text-align:center}
 }
 </style>
 </head>
-
 <body>
 
+<div class="cursor" id="cursor">
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+</div>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<nav>
+  <a href="#" class="nav-logo">PL<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">Sobre</a></li>
+    <li><a href="#experience">Experi&ecirc;ncia</a></li>
+    <li><a href="#stack">Tech Stack</a></li>
+    <li><a href="#contact">Contato</a></li>
+  </ul>
+</nav>
+
 <section class="hero">
-<h1>Inside the Architect's Mind</h1>
-<p>Paulo Laredo — Senior Software Engineer</p>
-<p>Designing scalable, secure and resilient systems for 15+ years.</p>
-<button onclick="toggleMode()">Switch Perspective</button>
-<p id="modeLabel">Current Mode: Executive</p>
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-left">
+    <h1 class="hero-name">
+      <span class="line">Paulo</span>
+      <span class="line"><span class="accent-word">Laredo</span></span>
+    </h1>
+    <p class="hero-title">.NET &amp; C# Specialist &middot; Backend &amp; Cloud</p>
+    <p class="hero-desc">
+      +15 anos construindo sistemas escal&aacute;veis. <strong>.NET &amp; C#</strong> como stack principal,
+      com ampla experi&ecirc;ncia em Node.js, React, Angular, WPF, AWS e Azure.
+    </p>
+    <div class="hero-cta">
+      <a href="mailto:edularedo@gmail.com" class="btn-primary">&#8599; Fale comigo</a>
+      <a href="https://linkedin.com/in/paulo-laredo" target="_blank" class="btn-ghost">LinkedIn</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="terminal-card">
+      <div class="terminal-header">
+        <div class="tdot tdot-r"></div>
+        <div class="tdot tdot-y"></div>
+        <div class="tdot tdot-g"></div>
+        <span class="terminal-title">paulo-laredo.json</span>
+      </div>
+      <div class="terminal-body">
+        <span class="t-br">{</span>
+        <span class="t-in"><span class="t-key">"name"</span>: <span class="t-str">"Paulo Laredo"</span>,</span>
+        <span class="t-in"><span class="t-key">"role"</span>: <span class="t-str">"Senior Software Engineer"</span>,</span>
+        <span class="t-in"><span class="t-key">"experience_years"</span>: <span class="t-num">15</span>,</span>
+        <span class="t-in"><span class="t-key">"location"</span>: <span class="t-str">"Campinas, SP"</span>,</span>
+        <span class="t-in"><span class="t-key">"primary_stack"</span>: <span class="t-br">[</span></span>
+        <span class="t-in2"><span class="t-str-hi">".NET Core"</span>, <span class="t-str-hi">"C#"</span>, <span class="t-str-hi">"ASP.NET"</span></span>
+        <span class="t-in"><span class="t-br">]</span>,</span>
+        <span class="t-in"><span class="t-key">"also_uses"</span>: <span class="t-br">[</span></span>
+        <span class="t-in2"><span class="t-str">"Node.js"</span>, <span class="t-str">"React"</span>, <span class="t-str">"Angular"</span>,</span>
+        <span class="t-in2"><span class="t-str">"WPF"</span>, <span class="t-str">"AWS"</span>, <span class="t-str">"Azure"</span></span>
+        <span class="t-in"><span class="t-br">]</span>,</span>
+        <span class="t-in"><span class="t-key">"github"</span>: <span class="t-str">"@powerlok"</span></span>
+        <span class="t-br">}</span>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num">15+</div><div class="stat-label">Anos</div></div>
+        <div class="stat"><div class="stat-num">20+</div><div class="stat-label">Projetos</div></div>
+        <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Clouds</div></div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section>
-<h2>Neural Architecture Map</h2>
-
-<div class="neural-map">
-<div class="node" onclick="show('dotnet')">.NET 8</div>
-<div class="node" onclick="show('clean')">Clean Architecture</div>
-<div class="node" onclick="show('micro')">Microservices</div>
-<div class="node" onclick="show('azure')">Azure</div>
-<div class="node" onclick="show('react')">React</div>
-<div class="node" onclick="show('angular')">Angular</div>
-<div class="node" onclick="show('sql')">SQL</div>
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item marquee-hi">.NET Core &amp; C# <span class="marquee-sep">&#10022;</span></div>
+    <div class="marquee-item">Node.js <span class="marquee-sep">&#10022;</span></div>
+    <div class="marquee-item">React <span class="marquee-sep">&#10022;</span></div>
+    <div class="marquee-item">Angular <span class="marquee-sep">&#10022;</span></div>
+    <div class="marquee-item">WPF <span class="marquee-sep">&#10022;</span></div>
+    <div class="marquee-item">AWS <span class="marquee-sep">&#10022;</span></div>
+    <div class="marquee-item">Azure <span class="marquee-sep">&#10022;</span></div>
+    <div class="marquee-item">Docker <span class="marquee-sep">&#10022;</span></div>
+    <div class="marquee-item">DDD <span class="marquee-sep">&#10022;</span></div>
+    <div class="marquee-item">CI/CD <span class="marquee-sep">&#10022;</span></div>
+    <div class="marquee-item marquee-hi">.NET Core &amp; C# <span class="marquee-sep">&#10022;</span></div>
+    <div class="marquee-item">Node.js <span class="marquee-sep">&#10022;</span></div>
+    <div class="marquee-item">React <span class="marquee-sep">&#10022;</span></div>
+    <div class="marquee-item">Angular <span class="marquee-sep">&#10022;</span></div>
+    <div class="marquee-item">WPF <span class="marquee-sep">&#10022;</span></div>
+    <div class="marquee-item">AWS <span class="marquee-sep">&#10022;</span></div>
+    <div class="marquee-item">Azure <span class="marquee-sep">&#10022;</span></div>
+    <div class="marquee-item">Docker <span class="marquee-sep">&#10022;</span></div>
+    <div class="marquee-item">DDD <span class="marquee-sep">&#10022;</span></div>
+    <div class="marquee-item">CI/CD <span class="marquee-sep">&#10022;</span></div>
+  </div>
 </div>
 
-<div id="info" class="panel">
-Selecione um nó para explorar decisões arquiteturais.
-</div>
+<section class="about" id="about">
+  <div class="section-label fade-in">Sobre mim</div>
+  <h2 class="section-heading fade-in">Engenheiro que<br><span style="color:var(--accent);font-family:'Fraunces',serif;font-style:italic">entrega resultados.</span></h2>
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <p>Com <strong>mais de 15 anos de experi&ecirc;ncia</strong>, tenho o <span class="dotnet-hl">.NET &amp; C#</span> como stack principal, mas ao longo da carreira trabalhei com diversas linguagens e tecnologias &mdash; de WPF a PHP, de Angular a Node.js &mdash; sempre adaptando a ferramenta ao problema.</p>
+      <p>Atualmente no <strong>Instituto de Pesquisas Eldorado</strong>, participo de projetos estrat&eacute;gicos para empresas como <strong>Bosch, CPFL, Tectoy, Prysmian, Miotec e Portal Telemedicina</strong>, com foco em arquitetura de software, APIs REST e boas pr&aacute;ticas de engenharia.</p>
+      <p>Em experi&ecirc;ncias anteriores, atuei em empresas como <strong>Oba Hortifruti e Global Project</strong>, desenvolvendo aplica&ccedil;&otilde;es web, melhorias de sistemas, integra&ccedil;&otilde;es e solu&ccedil;&otilde;es para diversos tipos de clientes e segmentos.</p>
+      <p class="about-skills-heading">Principais tecnologias</p>
+      <div class="skill-tags">
+        <span class="skill-tag dotnet">&#9889; .NET Core / C#</span>
+        <span class="skill-tag primary">ASP.NET</span>
+        <span class="skill-tag primary">WPF</span>
+        <span class="skill-tag primary">Node.js</span>
+        <span class="skill-tag primary">React</span>
+        <span class="skill-tag primary">Angular</span>
+        <span class="skill-tag primary">AWS</span>
+        <span class="skill-tag primary">Azure</span>
+        <span class="skill-tag">TypeScript</span>
+        <span class="skill-tag">SQL / NoSQL</span>
+        <span class="skill-tag">Docker</span>
+        <span class="skill-tag">CI/CD</span>
+        <span class="skill-tag">DDD</span>
+        <span class="skill-tag">TDD</span>
+        <span class="skill-tag">REST APIs</span>
+        <span class="skill-tag">Microsservi&ccedil;os</span>
+        <span class="skill-tag">Linux</span>
+        <span class="skill-tag">Oracle DB</span>
+        <span class="skill-tag">MySQL</span>
+        <span class="skill-tag">Redis</span>
+        <span class="skill-tag">PHP</span>
+        <span class="skill-tag">Nginx</span>
+      </div>
+    </div>
+    <div class="info-cards fade-in">
+      <div class="info-card dotnet-card">
+        <div class="info-card-icon">&#9889;</div>
+        <div class="info-card-title">.NET Core &amp; C# &mdash; Especialidade</div>
+        <div class="info-card-text">Stack principal h&aacute; +10 anos. APIs REST, microsservi&ccedil;os, WPF, Entity Framework, ASP.NET MVC, Clean Architecture, DDD e TDD com C# em produ&ccedil;&atilde;o.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">&#127959;</div>
+        <div class="info-card-title">Arquitetura de Software</div>
+        <div class="info-card-text">Design de sistemas escal&aacute;veis usando DDD, Clean Architecture e microsservi&ccedil;os. Foco em manutenibilidade e performance de longo prazo.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">&#9729;</div>
+        <div class="info-card-title">Cloud &amp; DevOps</div>
+        <div class="info-card-text">Experi&ecirc;ncia com AWS, Azure, Oracle Cloud e IBM Cloud. Pipelines CI/CD, containers, monitoramento e infraestrutura como c&oacute;digo.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">&#127891;</div>
+        <div class="info-card-title">Forma&ccedil;&atilde;o</div>
+        <div class="info-card-text">Bacharel em Ci&ecirc;ncia da Computa&ccedil;&atilde;o &mdash; Anhanguera Educacional (2006&ndash;2010). Certifica&ccedil;&otilde;es em ASP.MVC, Angular, React e React Native.</div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section>
-<h2>Career Evolution</h2>
+<section class="experience" id="experience">
+  <div class="section-label fade-in">Carreira</div>
+  <h2 class="section-heading fade-in">Onde fiz<br><span style="color:var(--accent2);font-family:'Fraunces',serif;font-style:italic">a diferen&ccedil;a.</span></h2>
+  <div class="timeline">
 
-<div class="timeline">
-<div><strong>2008</strong> — Primeiros projetos profissionais.</div>
-<div><strong>2015</strong> — Sistemas enterprise de alta complexidade.</div>
-<div><strong>2021 - Atual</strong> — Instituto de Pesquisas Eldorado.</div>
+```
+<div class="timeline-item fade-in">
+  <div class="timeline-period">fev 2021 &rarr; presente &middot; 5 anos</div>
+  <div class="timeline-company">Instituto de Pesquisas Eldorado</div>
+  <div class="timeline-role">Senior Software Analyst</div>
+  <div class="timeline-highlights">
+    <span class="highlight-pill dotnet-pill">.NET Core</span>
+    <span class="highlight-pill dotnet-pill">C#</span>
+    <span class="highlight-pill dotnet-pill">WPF</span>
+    <span class="highlight-pill">Node.js</span>
+    <span class="highlight-pill">Angular</span>
+    <span class="highlight-pill">React</span>
+    <span class="highlight-pill">AWS</span>
+    <span class="highlight-pill">Azure</span>
+    <span class="highlight-pill">CI/CD</span>
+  </div>
+  <ul class="timeline-desc">
+    <li>Desenvolvimento de aplica&ccedil;&otilde;es full stack para projetos de clientes como <strong>Bosch, CPFL, Tectoy, Prysmian, Miotec, Rede ILPF e Portal Telemedicina</strong></li>
+    <li>Utiliza&ccedil;&atilde;o de diversas tecnologias conforme o projeto: <strong>.NET Core e C#</strong> como principal, al&eacute;m de Node.js, Angular, React e WPF</li>
+    <li>Arquitetura de software e integra&ccedil;&atilde;o de sistemas, cria&ccedil;&atilde;o e evolu&ccedil;&atilde;o de APIs REST escal&aacute;veis e seguras</li>
+    <li>Aplica&ccedil;&atilde;o de DDD, TDD, CI/CD e boas pr&aacute;ticas DevOps com AWS e Azure</li>
+    <li>Colabora&ccedil;&atilde;o com times multidisciplinares em ambientes &aacute;geis (Scrum)</li>
+    <li>Contribui&ccedil;&atilde;o em decis&otilde;es t&eacute;cnicas com impacto direto na escalabilidade, manuten&ccedil;&atilde;o e performance das solu&ccedil;&otilde;es</li>
+  </ul>
 </div>
 
+<div class="timeline-item fade-in">
+  <div class="timeline-period">jul 2012 &rarr; jan 2021 &middot; 8 anos e 7 meses</div>
+  <div class="timeline-company">Oba Hortifruti</div>
+  <div class="timeline-role">Desenvolvedor Fullstack</div>
+  <div class="timeline-highlights">
+    <span class="highlight-pill dotnet-pill">C# / .NET</span>
+    <span class="highlight-pill">Angular</span>
+    <span class="highlight-pill">Node.js</span>
+    <span class="highlight-pill">React</span>
+    <span class="highlight-pill">Oracle</span>
+    <span class="highlight-pill">MySQL</span>
+    <span class="highlight-pill">Azure</span>
+    <span class="highlight-pill">Linux</span>
+  </div>
+  <ul class="timeline-desc">
+    <li>Respons&aacute;vel pelo desenvolvimento de diversas aplica&ccedil;&otilde;es em m&uacute;ltiplas linguagens: Angular, TypeScript, Node.js, C#, PHP, React</li>
+    <li>Cria&ccedil;&atilde;o e manuten&ccedil;&atilde;o de servidores Windows e Linux (IBM Cloud e Oracle Cloud)</li>
+    <li>Administra&ccedil;&atilde;o de banco Oracle: procedures, functions, triggers e jobs</li>
+    <li>Cria&ccedil;&atilde;o de Azure Pipelines e Releases, gest&atilde;o DevOps com Scrum</li>
+    <li>Controle de DNS (PowerDNS, Azure DNS) e certificados SSL</li>
+    <li>Stacks: Angular Material, React UI Material, Bootstrap, Apache, NGINX, IIS</li>
+  </ul>
+</div>
+
+<div class="timeline-item fade-in">
+  <div class="timeline-period">mar 2010 &rarr; jul 2012 &middot; 2 anos e 5 meses</div>
+  <div class="timeline-company">Global Project Ag&ecirc;ncia Web</div>
+  <div class="timeline-role">Programador Web</div>
+  <div class="timeline-highlights">
+    <span class="highlight-pill">PHP</span>
+    <span class="highlight-pill">JavaScript</span>
+    <span class="highlight-pill">MySQL</span>
+    <span class="highlight-pill">Magento</span>
+  </div>
+  <ul class="timeline-desc">
+    <li>Desenvolvimento de softwares web para clientes de diversos segmentos</li>
+    <li>Cria&ccedil;&atilde;o de lojas virtuais com framework Magento</li>
+    <li>Hospedagem e gerenciamento de sites em ambientes Windows e Linux</li>
+    <li>Stack: PHP, JavaScript (jQuery), ASP, VB, MySQL, SQL Server, Firebird, PostgreSQL</li>
+  </ul>
+</div>
+
+<div class="timeline-item fade-in">
+  <div class="timeline-period">nov 2008 &rarr; mar 2010 &middot; 1 ano e 5 meses</div>
+  <div class="timeline-company">Unicamp</div>
+  <div class="timeline-role">Estagi&aacute;rio de Desenvolvimento de Software</div>
+  <div class="timeline-highlights">
+    <span class="highlight-pill">PHP</span>
+    <span class="highlight-pill">MySQL</span>
+    <span class="highlight-pill">Linux</span>
+  </div>
+  <ul class="timeline-desc">
+    <li>Programa&ccedil;&atilde;o em PHP e MySQL em ambiente Linux</li>
+    <li>In&iacute;cio da trajet&oacute;ria profissional em desenvolvimento de software</li>
+  </ul>
+</div>
+```
+
+  </div>
+</section>
+
+<section class="techstack" id="stack">
+  <div class="section-label fade-in">Tecnologias</div>
+  <h2 class="section-heading fade-in">Meu<br><span style="color:var(--accent3);font-family:'Fraunces',serif;font-style:italic">arsenal t&eacute;cnico.</span></h2>
+  <div class="tech-grid fade-in">
+    <div class="tech-item tech-featured"><div class="tech-icon">&#9889;</div>.NET Core<div class="tech-badge">Principal</div></div>
+    <div class="tech-item tech-featured"><div class="tech-icon">&#128311;</div>C#<div class="tech-badge">Principal</div></div>
+    <div class="tech-item tech-featured"><div class="tech-icon">&#127758;</div>ASP.NET<div class="tech-badge">Principal</div></div>
+    <div class="tech-item tech-featured"><div class="tech-icon">&#128444;</div>WPF<div class="tech-badge">Principal</div></div>
+    <div class="tech-item"><div class="tech-icon">&#129001;</div>Node.js</div>
+    <div class="tech-item"><div class="tech-icon">&#9883;</div>React</div>
+    <div class="tech-item"><div class="tech-icon">&#128308;</div>Angular</div>
+    <div class="tech-item"><div class="tech-icon">&#128218;</div>TypeScript</div>
+    <div class="tech-item"><div class="tech-icon">&#9729;</div>AWS</div>
+    <div class="tech-item"><div class="tech-icon">&#128309;</div>Azure</div>
+    <div class="tech-item"><div class="tech-icon">&#128051;</div>Docker</div>
+    <div class="tech-item"><div class="tech-icon">&#128260;</div>CI/CD</div>
+    <div class="tech-item"><div class="tech-icon">&#128039;</div>Linux</div>
+    <div class="tech-item"><div class="tech-icon">&#128451;</div>Oracle DB</div>
+    <div class="tech-item"><div class="tech-icon">&#128044;</div>MySQL</div>
+    <div class="tech-item"><div class="tech-icon">&#127807;</div>MongoDB</div>
+    <div class="tech-item"><div class="tech-icon">&#128308;</div>Redis</div>
+    <div class="tech-item"><div class="tech-icon">&#127963;</div>DDD</div>
+    <div class="tech-item"><div class="tech-icon">&#129514;</div>TDD</div>
+    <div class="tech-item"><div class="tech-icon">&#128295;</div>NGINX</div>
+    <div class="tech-item"><div class="tech-icon">&#128024;</div>PHP</div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="contact-bg"></div>
+  <div class="contact-content">
+    <div class="section-label fade-in" style="justify-content:center">Contato</div>
+    <h2 class="contact-heading fade-in">Vamos <em>conversar</em><br>sobre tecnologia?</h2>
+    <p class="contact-sub fade-in">Quer trocar uma ideia sobre arquitetura de software, .NET, cloud ou projetos complexos? Fique &agrave; vontade para entrar em contato.</p>
+    <div class="contact-links fade-in">
+      <a href="mailto:edularedo@gmail.com" class="contact-link main">&#9993; edularedo@gmail.com</a>
+      <a href="https://linkedin.com/in/paulo-laredo" target="_blank" class="contact-link">&#128188; LinkedIn</a>
+      <a href="https://github.com/powerlok" target="_blank" class="contact-link">&#128025; GitHub</a>
+      <a href="tel:+5519998302552" class="contact-link">&#128241; (19) 99830-2552</a>
+    </div>
+  </div>
 </section>
 
 <footer>
-System Build v2.0 — Architect Interface
+  <span>&copy; 2025 Paulo Laredo &middot; Campinas, SP</span>
+  <span>Built with &#9825; &middot; <a href="https://github.com/powerlok" target="_blank">github.com/powerlok</a></span>
 </footer>
 
 <script>
-let mode = "Executive";
-
-function toggleMode(){
-mode = mode === "Executive" ? "Technical" : "Executive";
-document.getElementById("modeLabel").innerText = "Current Mode: " + mode;
-}
-
-function show(type){
-const executive = {
-dotnet:"Desenvolvimento de APIs robustas e escaláveis.",
-clean:"Arquitetura organizada e sustentável a longo prazo.",
-micro:"Sistemas modulares com melhor escalabilidade.",
-azure:"Deploy e integração em ambiente cloud.",
-react:"Interfaces modernas e performáticas.",
-angular:"Aplicações enterprise estruturadas.",
-sql:"Modelagem e otimização de dados."
-};
-
-const technical = {
-dotnet:"Uso de .NET 8 com separação de camadas e boas práticas.",
-clean:"Aplicação de SOLID, separação de domínio e infraestrutura.",
-micro:"Design orientado a domínio e boundaries bem definidos.",
-azure:"Integração com App Services e monitoramento.",
-react:"Gerenciamento de estado e componentização eficiente.",
-angular:"Arquitetura modular e lazy loading.",
-sql:"Índices, tuning de queries e modelagem relacional."
-};
-
-document.getElementById("info").innerText =
-mode === "Executive" ? executive[type] : technical[type];
-}
+var ring=document.getElementById('cursorRing'),dot=document.getElementById('cursorDot');
+var mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+(function tick(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);})();
+document.querySelectorAll('a,button,.tech-item,.skill-tag').forEach(function(el){
+  el.addEventListener('mouseenter',function(){ring.style.width='60px';ring.style.height='60px';ring.style.opacity='.3';});
+  el.addEventListener('mouseleave',function(){ring.style.width='40px';ring.style.height='40px';ring.style.opacity='.6';});
+});
+var prog=document.getElementById('scrollProgress');
+window.addEventListener('scroll',function(){var p=window.scrollY/(document.body.scrollHeight-window.innerHeight);prog.style.transform='scaleX('+p+')';});
+var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.1});
+document.querySelectorAll('.fade-in').forEach(function(el){obs.observe(el);});
 </script>
 
 </body>
